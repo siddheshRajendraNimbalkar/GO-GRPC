@@ -1,5 +1,3 @@
-// gin_client.go
-
 package main
 
 import (
@@ -7,20 +5,19 @@ import (
 	"log"
 	"net/http"
 
-	pb "path/to/generated/protobuf/go/package"
-
 	"github.com/gin-gonic/gin"
+	porto "github.com/siddheshRajendraNimbalkar/GO-GRPC/protoc"
 	"google.golang.org/grpc"
 )
 
 func main() {
-	conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure())
+	conn, err := grpc.NewClient("localhost:4040", grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("failed to connect to gRPC server: %v", err)
 	}
 	defer conn.Close()
 
-	client := pb.NewNameClient(conn)
+	client := porto.NewNameClient(conn)
 
 	router := gin.Default()
 
@@ -35,7 +32,7 @@ func main() {
 			return
 		}
 
-		grpcReq := &pb.NameRequest{
+		grpcReq := &porto.NameRequest{
 			FirstName:  req.FirstName,
 			MiddleName: req.MiddleName,
 			LastName:   req.LastName,
