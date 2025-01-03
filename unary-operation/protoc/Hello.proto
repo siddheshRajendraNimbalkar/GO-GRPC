@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option go_package = "./";
+
+message NameRequest {
+    string first_name = 1;
+    string middle_name = 2;
+    string last_name = 3;
+}
+
+message NameResponse {
+    string full_name = 1;
+}
+
+service Name {
+    rpc NameReply(NameRequest) returns (NameResponse);
+}
